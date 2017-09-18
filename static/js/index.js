@@ -129,7 +129,7 @@ el: $("#marya"),
 template: _.template($('#total-coast').html()),
 
 initialize: function() {
-//this.render();
+    this.render();
 	},
 
 	render: function() {
@@ -160,14 +160,14 @@ this.render();
 		}, this);
 		console.log('rend');
 		//var itemPayView = new ItemColectionPayView({model: item});
-		var itemPayView = new ItemColectionPayView({collection: itemcCllection});
-		$('#total-coast').text(totalCoast);
+
+		//$('#total-coast').text(totalCoast);
 		console.log(itemPayView);
 
 		return this;
 	}
 })
-
+var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
 //var start = new Start();
 
