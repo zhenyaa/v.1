@@ -123,6 +123,24 @@ var ItemView = Backbone.View.extend({ //вид елемента
 //    }
 });
 
+var ItemColectionPayView = Backbone.View.extend({
+el: $("#marya"),
+
+template: _.template($('#total-coast').html()),
+
+initialize: function() {
+//this.render();
+	},
+
+	render: function() {
+		//замечательный шаблон
+		//console.log(ItemColectionPayView)
+		this.$el.html(this.template(this.model.toJSON()));
+		//console.log(itemcCllection);
+		return this;
+	},
+})
+
 var ItemColectionView = Backbone.View.extend({ //вид колекции
 el: $("#valera"),
 //tagName: 'tr',
@@ -133,11 +151,18 @@ this.render();
 
 	render: function() {
 
+	    var totalCoast = 0
 		this.collection.each(function(item) {
+		    totalCoast += item.get('price');
 			var itemView = new ItemView({model: item});
 			this.$el.append(itemView.render().el);
 //			itemView.delegateEvents();
 		}, this);
+		console.log('rend');
+		//var itemPayView = new ItemColectionPayView({model: item});
+		var itemPayView = new ItemColectionPayView({collection: itemcCllection});
+		$('#total-coast').text(totalCoast);
+		console.log(itemPayView);
 
 		return this;
 	}
