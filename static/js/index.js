@@ -1,4 +1,4 @@
-$(document).ready(function(){
+//$(document).ready(function(){
 var Controller = Backbone.Router.extend({
     routes: {
         "": "start", // Пустой hash-тэг
@@ -24,9 +24,6 @@ var Controller = Backbone.Router.extend({
 });
 
 var controller = new Controller(); // Создаём контроллер
-
-
-
 var ItemModel = Backbone.Model.extend({ //модель елемента
        default:{
        		"id": null,
@@ -35,7 +32,6 @@ var ItemModel = Backbone.Model.extend({ //модель елемента
             "quantity": 1
         },
         urlRoot: "/sell"
-
 });
 
 var ItemCollection = Backbone.Collection.extend({ // колекция элементов
@@ -68,13 +64,10 @@ var itemcCllection = new ItemCollection( //екземпляр класса ко�
 var ItemView = Backbone.View.extend({ //вид елемента
     //el: $("#valera"),
     tagName: 'tr',
-
     events:{
        'click .delete': 'destroy'
     },
-
     template: _.template($('#item-template').html()),
-
 	initialize: function() {
 	    //this._ensureElement();
 	      this.model.on('destroy', this.remove, this);
@@ -92,7 +85,6 @@ var ItemView = Backbone.View.extend({ //вид елемента
 	remove: function  () {
     this.$el.remove();
 },
-
     destroy: function  () {
 //            e.preventDefault();
             this.model.destroy();
@@ -125,17 +117,25 @@ var ItemView = Backbone.View.extend({ //вид елемента
 
 var ItemColectionPayView = Backbone.View.extend({
 el: $("#marya"),
-
 template: _.template($('#total-coast').html()),
-
 initialize: function() {
     this.render();
 	},
-
 	render: function() {
+	    var totalCoast = 0
+		console.log(this)
+        this.collection.each(function(item) {
+                totalCoast += item.get('price');
+                //var itemView = new ItemView({model: item})
+                this.$el.html(this.template(this.model.toJSON()));;
+                //this.$el.append(itemView.render().el);
+    //			itemView.delegateEvents();
+            }, this);
+
+	////////////////////////////////
 		//замечательный шаблон
-		//console.log(ItemColectionPayView)
-		this.$el.html(this.template(this.model.toJSON()));
+		//this.$el.html(this.template(this.model.toJSON()));
+		//this.$el.html(this.template(directory.model.toJSON()));
 		//console.log(itemcCllection);
 		return this;
 	},
@@ -143,39 +143,32 @@ initialize: function() {
 
 var ItemColectionView = Backbone.View.extend({ //вид колекции
 el: $("#valera"),
-//tagName: 'tr',
-
+//tagName: 'div',
 initialize: function() {
 this.render();
 	},
-
 	render: function() {
-
-	    var totalCoast = 0
+	    //var totalCoast = 0
 		this.collection.each(function(item) {
-		    totalCoast += item.get('price');
+		    //totalCoast += item.get('price');
 			var itemView = new ItemView({model: item});
 			this.$el.append(itemView.render().el);
 //			itemView.delegateEvents();
 		}, this);
 		console.log('rend');
 		//var itemPayView = new ItemColectionPayView({model: item});
-
 		//$('#total-coast').text(totalCoast);
-		console.log(itemPayView);
-
+		//console.log(itemPayView);
 		return this;
 	}
 })
 var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
 //var start = new Start();
-
 // var Start = Backbone.View.extend({
 //     el: $("#start"), // DOM элемент widget'а
 //     events: {
 //         "click input:button": "check" // Обработчик клика на кнопке "Проверить"
-        
 //     },
 //     check: function () {
 //         if (this.el.find("input:text").val() == "test") // Проверка текста
@@ -184,6 +177,5 @@ var itemsView = new ItemColectionView({collection: itemcCllection}); //экзе�
 //             controller.navigate("error", true); // переход на страницу error
 //     }
 // });
-
 // var start = new Start();
-});
+//});
