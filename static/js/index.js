@@ -125,6 +125,7 @@ initialize: function() {
 	render: function() {
 	    var totalCoast = 0
 		console.log(this.collection);
+		console.log("hello");
 		//  console.log(collection);
 		//console.log(this.model.toJSON());
 //        this.collection.each(function(item) {
