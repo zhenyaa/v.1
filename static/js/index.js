@@ -117,15 +117,22 @@ var ItemView = Backbone.View.extend({ //вид елемента
 
 var ItemColectionPayView = Backbone.View.extend({
 el: $("#marya"),
-template: _.template($('#total-coast').html()),
+//template: _.template($('#total-coast').html()),
+template: _.template("<div>hello its template </div>  <button type='button' class='btn btn-primary btn-sm totalsum' >Оплатить</button>"),
+
 initialize: function() {
     this.render();
+    return this;
 	},
 
 	render: function() {
 	    var totalCoast = 0
 		console.log(this.collection);
 		console.log("hello");
+		var markup = this.template();
+		this.$el.html(markup);
+		console.log(markup);
+		return this;
 		//  console.log(collection);
 		//console.log(this.model.toJSON());
 //        this.collection.each(function(item) {
@@ -139,8 +146,9 @@ initialize: function() {
 	////////////////////////////////
 		//замечательный шаблон
 		//console.log(template);
-		console.log(this.template);
-		this.$el.html(this.template());
+		console.log(template());
+		console.log(this.template());
+		this.$el.html(this.template(this.totalCoast));
 		//this.$el.html(this.template(directory.model.toJSON()));
 		//console.log(itemcCllection);
 		return this;

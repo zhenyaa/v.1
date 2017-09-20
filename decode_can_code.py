@@ -18,7 +18,7 @@
 # #c.setopt(c.WRITEFUNCTION, buffer.write)
 # c.perform()
 # c.close()
-#
+#<!--<div><%= total-coast %></div>-->                             !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # body = buffer.getvalue()
 # #print(body)
 # # Body is a string on Python 2 and a byte string on Python 3.
