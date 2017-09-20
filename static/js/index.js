@@ -121,20 +121,25 @@ template: _.template($('#total-coast').html()),
 initialize: function() {
     this.render();
 	},
+
 	render: function() {
 	    var totalCoast = 0
-		console.log(this)
-        this.collection.each(function(item) {
-                totalCoast += item.get('price');
-                //var itemView = new ItemView({model: item})
-                this.$el.html(this.template(this.model.toJSON()));;
-                //this.$el.append(itemView.render().el);
-    //			itemView.delegateEvents();
-            }, this);
+		console.log(this.collection);
+		//  console.log(collection);
+		//console.log(this.model.toJSON());
+//        this.collection.each(function(item) {
+//                totalCoast += item.get('price');
+//                //var itemView = new ItemView({model: item})
+//                this.$el.html(this.template(this.model.toJSON()));;
+//                //this.$el.append(itemView.render().el);
+//    //			itemView.delegateEvents();
+//            }, this);
 
 	////////////////////////////////
 		//замечательный шаблон
-		//this.$el.html(this.template(this.model.toJSON()));
+		//console.log(template);
+		console.log(this.template);
+		this.$el.html(this.template());
 		//this.$el.html(this.template(directory.model.toJSON()));
 		//console.log(itemcCllection);
 		return this;
