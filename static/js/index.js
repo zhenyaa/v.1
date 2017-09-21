@@ -49,7 +49,7 @@ var itemcCllection = new ItemCollection( //екземпляр класса ко�
 	{
 		"id":2,
 		"name":"test2",
-		"price":140,
+		"price":142,
 		"quantity":1
 	},
 	{
@@ -117,19 +117,25 @@ var ItemView = Backbone.View.extend({ //вид елемента
 
 var ItemColectionPayView = Backbone.View.extend({
 el: $("#marya"),
-//template: _.template($('#total-coast').html()),
-template: _.template("<div>hello its template </div>  <button type='button' class='btn btn-primary btn-sm totalsum' >Оплатить</button>"),
+template: _.template($('#total-coast').html()),
+//template: _.template("<div>hello its template </div>  <button type='button' class='btn btn-primary btn-sm totalsum' >Оплатить</button>"),
 
 initialize: function() {
     this.render();
+   // console.log(this.collection, "this colle");
+    //this.collection.on('change', this.render, this);
+    //this.model.on('change', this.render, this);
     return this;
 	},
 
 	render: function() {
 	    var totalCoast = 0
 		console.log(this.collection);
-		console.log("hello");
-		var markup = this.template();
+
+		this.collection.each(function(item) {
+                totalCoast += item.get('price');
+         }, this);
+		var markup = this.template({totalCoast: totalCoast});
 		this.$el.html(markup);
 		console.log(markup);
 		return this;
