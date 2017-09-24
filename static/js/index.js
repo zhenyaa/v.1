@@ -85,11 +85,11 @@ var ItemView = Backbone.View.extend({ //вид елемента
 	remove: function  () {
     this.$el.remove();
 },
-    destroy: function  () {
-//            e.preventDefault();
+    destroy: function  (event) {
+            event.preventDefault();
             this.model.destroy();
             //alert("model whos destroy");
-            console.log(itemcCllection);
+            //console.log(itemcCllection);
         },
 //    events:{
 //       'click .btn btn-primary btn-sm': 'destroy'
@@ -123,9 +123,15 @@ template: _.template($('#total-coast').html()),
 initialize: function() {
     this.render();
    // console.log(this.collection, "this colle");
-    //this.collection.on('change', this.render, this);
+    this.collection.on('remove', this.render, this);
+   //this.collection.bind("change", this.render, this);
+  // this.collection.bind("replace reset add remove change", this.render, this);
+    //this.listenTo(this.collection, 'change', this.render);
     //this.model.on('change', this.render, this);
     return this;
+	},
+	test12: function() {
+	    alert(123);
 	},
 
 	render: function() {
@@ -182,6 +188,9 @@ this.render();
 		return this;
 	}
 })
+setTimeout( function() {
+alert('time');
+}, 2000);
 var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
 //var start = new Start();
