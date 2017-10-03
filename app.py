@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import render_template
+from flask import jsonify
 import decode_can_code
 import  os
 from flask import request
@@ -42,6 +43,39 @@ def additem():
 @app.route('/admin/')
 def admin():
     return render_template("base.html")
+
+test5 = [
+	{
+		"id":1,
+		"name":"test",
+		"price":100,
+		"quantity":1,
+		"total_amount": 6
+	},
+	{
+		"id":2,
+		"name":"test2",
+		"price":142,
+		"quantity":1,
+		"total_amount": 6
+	},
+	{
+		"id":3,
+		"name":"test3",
+		"price":4,
+		"quantity":1,
+		"total_amount": 5
+	}
+]
+
+text = '{"canApprove": true,"hasDisplayed": false}'
+
+@app.route('/getbarcode/')
+def getBarcode():
+    print("respons")
+    S=str(test5)
+   # print(jsonify({"test5":test5}))
+    return jsonify({"test5":S})
 
 @app.route('/hello')
 def hello_world():

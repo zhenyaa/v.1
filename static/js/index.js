@@ -127,14 +127,14 @@ initialize: function() {
 
 	render: function() {
 	    var totalCoast = 0
-		console.log(this.collection);
+		//console.log(this.collection);
 
 		this.collection.each(function(item) {
                 totalCoast += item.get('total_amount');
          }, this);
 		var markup = this.template({totalCoast: totalCoast});
 		this.$el.html(markup);
-		console.log(markup);
+		//console.log(markup);
 		return this;
 		console.log(template());
 		console.log(this.template());
@@ -148,6 +148,7 @@ initialize: function() {
 var ItemColectionView = Backbone.View.extend({ //вид колекции
 el: $("#valera"),
 //tagName: 'div',
+
 initialize: function() {
 this.render();
 	},
@@ -156,10 +157,51 @@ this.render();
 			var itemView = new ItemView({model: item});
 			this.$el.append(itemView.render().el);
 		}, this);
-		console.log('rend');
+		//console.log('rend');
 		return this;
 	}
 })
+var jsonMass = 2;
+function getBarcode(e) {
+   // e.preventDefault();
+  // e.stopPropagation();
+    alert("its barcode");
+    $.ajax({
+    type: "GET",
+    crossDomain:true,
+    url: '/getbarcode/',             // указываем URL и
+    data:"",
+    dataType : "json",                     // тип загружаемых данных
+    error: function(){
+    alert('Load was performed.');
+    },
+    success: function (data, textStatus) { // вешаем свой обработчик на функцию success
+   // confirm(data);
+     //var i = "";
+     //i = JSON.parse(data);
+     console.log("privet ", data);
+     //console.log(JSON.parse(data));
+    confirm("hello");
+//    e.preventDefault();
+//     e.stopPropagation();
 
+    //alert(jsonMass);
+    //alert(JSON.parse(data));
+//        //console.log(data);
+//        //alert(data);
+//
+//        alert(textStatus);
+//        $.each(data, function(i, val) {    // обрабатываем полученные данные
+//            //jsonMass = JSON.parse(data);
+//            console.log(JSON.parse(data));
+//            console.log(jsonMass);
+//            console.log(data);
+//            console.log(var_damp(data));
+//
+//        });
+    }
+});
+
+};
 var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
