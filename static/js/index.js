@@ -26,11 +26,11 @@ var Controller = Backbone.Router.extend({
 var controller = new Controller(); // Создаём контроллер
 var ItemModel = Backbone.Model.extend({ //модель елемента
        default:{
-       		"id": null,
+       		"id": 1,
             "name": "",
             "price": null,
             "quantity": 1,
-            "ready": null,
+            "ready": 1,
             "total_amount": null
         },
         urlRoot: "/sell"
@@ -39,31 +39,38 @@ var ItemModel = Backbone.Model.extend({ //модель елемента
 var ItemCollection = Backbone.Collection.extend({ // колекция элементов
 	model: ItemModel
 });
-
-var itemcCllection = new ItemCollection( //екземпляр класса колекций
-[
-	{
-		"id":1,
-		"name":"test",
-		"price":100,
-		"quantity":1,
-		"total_amount": 6
-	},
-	{
-		"id":2,
-		"name":"test2",
-		"price":142,
-		"quantity":1,
-		"total_amount": 6
-	},
-	{
-		"id":3,
-		"name":"test3",
-		"price":4,
-		"quantity":1,
+var testmodel = [{
+		"id":100,
+		"name":"foo",
+		"price":25,
+		"quantity":5,
 		"total_amount": 5
 	}
-]
+	];
+var itemcCllection = new ItemCollection( //екземпляр класса колекций
+//[
+//	{
+//		"id":1,
+//		"name":"test",
+//		"price":100,
+//		"quantity":1,
+//		"total_amount": 6
+//	},
+//	{
+//		"id":2,
+//		"name":"test2",
+//		"price":142,
+//		"quantity":1,
+//		"total_amount": 6
+//	},
+//	{
+//		"id":3,
+//		"name":"test3",
+//		"price":4,
+//		"quantity":1,
+//		"total_amount": 5
+//	}
+//]
 );
 
 var ItemView = Backbone.View.extend({ //вид елемента
@@ -124,7 +131,29 @@ initialize: function() {
 //	test12: function() {
 //	    alert(123);
 //	},
+    events:{
+       'click .totalsum': 'pay',
+    },
 
+    pay: function(){
+    alert("pay");
+        $.ajax({
+            type: "GET",
+            crossDomain:true,
+            url: '/getbarcode/',             // указываем URL и
+            data: {"collection": itemcCllection.toJSON()},
+            dataType : "json",                     // тип загружаемых данных
+            error: function(){
+            alert('Load was performed.');
+            },
+             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
+             itemcCllection.add(data);
+             console.log("Last coll", itemcCllection.last());
+             console.log("colection tut",itemcCllection);
+            }
+        });
+
+    },
 	render: function() {
 	    var totalCoast = 0
 		//console.log(this.collection);
@@ -143,13 +172,14 @@ initialize: function() {
 		//console.log(itemcCllection);
 		return this;
 	},
-})
+});
 
 var ItemColectionView = Backbone.View.extend({ //вид колекции
 el: $("#valera"),
 //tagName: 'div',
 
 initialize: function() {
+this.collection.on('add', this.rerender, this);
 this.render();
 	},
 	render: function() {
@@ -157,51 +187,35 @@ this.render();
 			var itemView = new ItemView({model: item});
 			this.$el.append(itemView.render().el);
 		}, this);
-		//console.log('rend');
+		console.log(this.collection);
 		return this;
-	}
-})
-var jsonMass = 2;
-function getBarcode(e) {
-   // e.preventDefault();
-  // e.stopPropagation();
-    alert("its barcode");
-    $.ajax({
-    type: "GET",
-    crossDomain:true,
-    url: '/getbarcode/',             // указываем URL и
-    data:"",
-    dataType : "json",                     // тип загружаемых данных
-    error: function(){
-    alert('Load was performed.');
-    },
-    success: function (data, textStatus) { // вешаем свой обработчик на функцию success
-   // confirm(data);
-     //var i = "";
-     //i = JSON.parse(data);
-     console.log("privet ", data);
-     //console.log(JSON.parse(data));
-    confirm("hello");
-//    e.preventDefault();
-//     e.stopPropagation();
-
-    //alert(jsonMass);
-    //alert(JSON.parse(data));
-//        //console.log(data);
-//        //alert(data);
-//
-//        alert(textStatus);
-//        $.each(data, function(i, val) {    // обрабатываем полученные данные
-//            //jsonMass = JSON.parse(data);
-//            console.log(JSON.parse(data));
-//            console.log(jsonMass);
-//            console.log(data);
-//            console.log(var_damp(data));
-//
-//        });
-    }
+	},
+	rerender: function(){
+	    var itemView = new ItemView({model:itemcCllection.last() });
+	    this.$el.append(itemView.render().el);
+	    return this;
+	},
 });
+var jsonMass = 2;
 
-};
 var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
+
+function getBarcode() {
+            var barcode = $('#barcode').val()
+            $.ajax({
+            type: "GET",
+            crossDomain:true,
+            url: '/getbarcode/',             // указываем URL и
+            data: {"barcode": barcode},
+            dataType : "json",                     // тип загружаемых данных
+            error: function(){
+            alert('Load was performed.');
+            },
+             success: function (data, textStatus) { // вешаем свой обработчик на функцию success
+             itemcCllection.add(data);
+             console.log("Last coll", itemcCllection.last());
+             console.log("colection tut",itemcCllection.toJSON());
+            }
+        });
+};

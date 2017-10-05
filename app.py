@@ -46,25 +46,32 @@ def admin():
 
 test5 = [
 	{
-		"id":1,
-		"name":"test",
-		"price":100,
+		"id":7,
+		"name":"0",
+		"price":100500,
+		"quantity":1,
+		"total_amount": 6
+	},
+    {
+		"id":6,
+		"name":"1",
+		"price":4,
 		"quantity":1,
 		"total_amount": 6
 	},
 	{
-		"id":2,
-		"name":"test2",
+		"id":5,
+		"name":"2",
 		"price":142,
 		"quantity":1,
 		"total_amount": 6
 	},
 	{
-		"id":3,
-		"name":"test3",
-		"price":4,
-		"quantity":1,
-		"total_amount": 5
+		"id":339,
+		"name":"3",
+		"price":1,
+		"quantity":2,
+		"total_amount": 10
 	}
 ]
 
@@ -74,8 +81,12 @@ text = '{"canApprove": true,"hasDisplayed": false}'
 def getBarcode():
     print("respons")
     S=str(test5)
-   # print(jsonify({"test5":test5}))
-    return jsonify({"test5":S})
+    if request.method == 'GET':
+        data = request.args.get('barcode')
+        print(request.args.get("collection[0][price]"))
+        print(test5[int(data)])
+        #return render_template("add_t.html", barcode=data)
+    return jsonify(test5[int(data)])
 
 @app.route('/hello')
 def hello_world():
