@@ -3,8 +3,10 @@ from flask import render_template
 from flask import jsonify
 import decode_can_code
 import  os
+import json
 from flask import request
 #from flask.ext.sq
+
 
 app = Flask(__name__, static_url_path="", static_folder='static')
 app._static_folder = os.path.abspath("static")
@@ -77,16 +79,31 @@ test5 = [
 
 text = '{"canApprove": true,"hasDisplayed": false}'
 
-@app.route('/getbarcode/')
+@app.route('/getbarcode/',methods=['GET','POST'])
 def getBarcode():
     print("respons")
     S=str(test5)
     if request.method == 'GET':
-        data = request.args.get('barcode')
-        print(request.args.get("collection[0][price]"))
-        print(test5[int(data)])
-        #return render_template("add_t.html", barcode=data)
-    return jsonify(test5[int(data)])
+        # print("this is reqest",json.loads(request.args))
+        print("this is reqest", request.args)
+        if "barcode" in request.args:
+            print("its barcode")
+            data = request.args.get('barcode')
+            print(test5[int(data)])
+            return jsonify(test5[int(data)])
+    elif request.method == 'POST':
+            print("its mass", request.get_json(force=True))
+            return "xyz", 200
+
+
+
+        # if "collection[0][price]" in request.args:
+        #     print(request.args.get("2"))
+        #     return "xyz", 200
+    # data = request.args.get('barcode')
+    # print(test5[int(data)])
+    # #return render_template("add_t.html", barcode=data)
+    # return jsonify(test5[int(data)])
 
 @app.route('/hello')
 def hello_world():

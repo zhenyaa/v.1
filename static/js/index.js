@@ -137,12 +137,16 @@ initialize: function() {
 
     pay: function(){
     alert("pay");
+    var dataCollection = itemcCllection.toJSON()
+    console.log("thuy!!!!",dataCollection);
+    console.log(JSON.stringify(dataCollection));
         $.ajax({
-            type: "GET",
+            type: "POST",
             crossDomain:true,
             url: '/getbarcode/',             // указываем URL и
-            data: {"collection": itemcCllection.toJSON()},
             dataType : "json",                     // тип загружаемых данных
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify(dataCollection),
             error: function(){
             alert('Load was performed.');
             },
