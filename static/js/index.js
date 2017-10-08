@@ -202,6 +202,13 @@ this.render();
 });
 var jsonMass = 2;
 
+//var Router = Backbone.Router.extend({
+//    routes: {
+//        ''     : 'index',
+//        'sell' : 'ItemColectionView'
+//    },
+//new Router();
+//Backbone.history.start();
 var itemPayView = new ItemColectionPayView({collection: itemcCllection});
 var itemsView = new ItemColectionView({collection: itemcCllection}); //экземпляр класса вид колекции
 
